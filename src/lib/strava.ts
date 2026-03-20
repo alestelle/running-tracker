@@ -30,9 +30,11 @@ export async function fetchAllActivities(token: string): Promise<StravaActivity[
   const all: StravaActivity[] = [];
   let page = 1;
   while (true) {
-    const batch = await fetchActivities(token, { page, per_page: 200 });
-    all.push(...batch);
-    if (batch.length < 200) break;
+    const query = new URLSearchParams({ page: String(page), per_page: "200" });
+    const raw: StravaActivity[] = await stravaFetch(token, `/athlete/activities?${query}`);
+    const runs = raw.filter((a) => a.sport_type === "Run" || a.type === "Run");
+    all.push(...runs);
+    if (raw.length < 200) break; // 필터 전 원본 개수로 판단
     page++;
   }
   return all;
