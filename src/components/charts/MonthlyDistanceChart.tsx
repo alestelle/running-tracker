@@ -28,7 +28,7 @@ export default function MonthlyDistanceChart({ activities }: { activities: Strav
         <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
         <XAxis dataKey="month" tick={{ fontSize: 11 }} />
         <YAxis tick={{ fontSize: 11 }} unit="k" />
-        <Tooltip formatter={(v: number) => [`${v} km`, "거리"]} />
+        <Tooltip formatter={(v) => [`${v} km`, "거리"]} />
         <Bar dataKey="dist" fill="#fb923c" radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>

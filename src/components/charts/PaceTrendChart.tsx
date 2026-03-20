@@ -32,7 +32,7 @@ export default function PaceTrendChart({ activities }: { activities: StravaActiv
           tickFormatter={formatPaceLabel}
           domain={["auto", "auto"]}
         />
-        <Tooltip formatter={(v: number) => [formatPaceLabel(v) + " /km", "페이스"]} />
+        <Tooltip formatter={(v) => [formatPaceLabel(Number(v)) + " /km", "페이스"]} />
         <Line type="monotone" dataKey="pace" stroke="#f97316" strokeWidth={2} dot={{ r: 3 }} />
       </LineChart>
     </ResponsiveContainer>
