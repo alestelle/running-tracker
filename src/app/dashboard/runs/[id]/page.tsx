@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getSession } from "@/lib/session";
 import { fetchActivity } from "@/lib/strava";
 import { formatDate, formatDistance, formatDuration, formatPace } from "@/lib/format";

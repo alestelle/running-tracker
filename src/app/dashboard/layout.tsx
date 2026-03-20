@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import Sidebar from "@/components/nav/Sidebar";
