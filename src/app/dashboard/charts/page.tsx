@@ -11,7 +11,7 @@ export default function ChartsPage() {
   const [tab, setTab] = useState<"weekly" | "monthly">("weekly");
 
   useEffect(() => {
-    fetch("/api/strava/activities?per_page=200")
+    fetch("/api/strava/activities?all=true")
       .then((r) => r.json())
       .then((data) => { setActivities(data); setLoading(false); })
       .catch(() => setLoading(false));

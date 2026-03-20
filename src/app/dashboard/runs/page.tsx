@@ -10,7 +10,7 @@ export default function RunsPage() {
   const PER_PAGE = 18;
 
   useEffect(() => {
-    fetch("/api/strava/activities?per_page=200")
+    fetch("/api/strava/activities?all=true")
       .then((r) => r.json())
       .then((data) => { setActivities(data); setLoading(false); })
       .catch(() => setLoading(false));

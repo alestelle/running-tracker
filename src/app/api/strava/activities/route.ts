@@ -1,5 +1,5 @@
 import { getSessionFromRequest } from "@/lib/session";
-import { fetchActivities } from "@/lib/strava";
+import { fetchActivities, fetchAllActivities } from "@/lib/strava";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -7,6 +7,12 @@ export async function GET(req: NextRequest) {
   if (!session?.accessToken) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { searchParams } = req.nextUrl;
+
+  if (searchParams.get("all") === "true") {
+    const activities = await fetchAllActivities(session.accessToken);
+    return NextResponse.json(activities);
+  }
+
   const activities = await fetchActivities(session.accessToken, {
     before: searchParams.get("before") ? Number(searchParams.get("before")) : undefined,
     after: searchParams.get("after") ? Number(searchParams.get("after")) : undefined,
