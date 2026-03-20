@@ -42,6 +42,8 @@ export default function CalendarGrid({ activities, year, month }: Props) {
         {cells.map((day, i) => {
           const runs = day ? byDay[day] ?? [] : [];
           const totalDist = runs.reduce((s, a) => s + a.distance, 0);
+          const totalMovingTime = runs.reduce((s, a) => s + a.moving_time, 0);
+          const avgSpeed = totalDist > 0 && totalMovingTime > 0 ? totalDist / totalMovingTime : 0;
           return (
             <div
               key={i}
@@ -61,9 +63,12 @@ export default function CalendarGrid({ activities, year, month }: Props) {
                   </span>
                   {runs.length > 0 && (
                     <>
-                      <div className="w-2 h-2 bg-orange-500 rounded-full mt-0.5" />
-                      <span className="text-[10px] text-orange-500 font-medium mt-0.5">
+                      <div className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-0.5" />
+                      <span className="text-[10px] text-orange-500 font-medium mt-0.5 leading-tight">
                         {(totalDist / 1000).toFixed(1)}k
+                      </span>
+                      <span className="text-[9px] text-orange-400 leading-tight">
+                        {formatPace(avgSpeed)}
                       </span>
                     </>
                   )}
