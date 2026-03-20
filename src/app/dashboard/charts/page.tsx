@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 import { StravaActivity } from "@/types/strava";
 import WeeklyDistanceChart from "@/components/charts/WeeklyDistanceChart";
 import MonthlyDistanceChart from "@/components/charts/MonthlyDistanceChart";
+import CumulativeDistanceChart from "@/components/charts/CumulativeDistanceChart";
 import PaceTrendChart from "@/components/charts/PaceTrendChart";
 
 export default function ChartsPage() {
   const [activities, setActivities] = useState<StravaActivity[]>([]);
   const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState<"weekly" | "monthly">("weekly");
+  const [tab, setTab] = useState<"weekly" | "monthly" | "cumulative">("weekly");
 
   useEffect(() => {
     fetch("/api/strava/activities?all=true")
@@ -31,7 +32,7 @@ export default function ChartsPage() {
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-semibold text-gray-800">누적 거리</h2>
               <div className="flex gap-1 bg-gray-100 p-1 rounded-lg">
-                {(["weekly", "monthly"] as const).map((t) => (
+                {(["weekly", "monthly", "cumulative"] as const).map((t) => (
                   <button
                     key={t}
                     onClick={() => setTab(t)}
@@ -39,12 +40,18 @@ export default function ChartsPage() {
                       tab === t ? "bg-white text-orange-600 shadow-sm" : "text-gray-500"
                     }`}
                   >
-                    {t === "weekly" ? "주간" : "월간"}
+                    {t === "weekly" ? "주간" : t === "monthly" ? "월간" : "누적"}
                   </button>
                 ))}
               </div>
             </div>
-            {tab === "weekly" ? <WeeklyDistanceChart activities={activities} /> : <MonthlyDistanceChart activities={activities} />}
+            {tab === "weekly" ? (
+              <WeeklyDistanceChart activities={activities} />
+            ) : tab === "monthly" ? (
+              <MonthlyDistanceChart activities={activities} />
+            ) : (
+              <CumulativeDistanceChart activities={activities} />
+            )}
           </div>
 
           <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
